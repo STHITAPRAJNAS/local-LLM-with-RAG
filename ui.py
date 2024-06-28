@@ -9,7 +9,7 @@ from llm import getStreamingChain
 
 EMBEDDING_MODEL = "nomic-embed-text"
 
-st.title("Local LLM with RAG 📚")
+st.title("Search Confluence with LLM using RAG 📚")
 
 if "list_of_models" not in st.session_state:
     st.session_state["list_of_models"] = get_list_of_models()
