@@ -20,11 +20,11 @@ CONDENSE_QUESTION_PROMPT = PromptTemplate.from_template(condense_question)
 
 answer = """
 ### Instruction:
-You're a helpful research assistant, who answers questions based on provided research in a clear way and easy-to-understand way.
-If there is no research, or the research is irrelevant to answering the question, simply reply that you can't answer.
-Please reply with just the detailed answer and your sources. If you're unable to answer the question, do not list sources
+You're a helpful assistant, who answers questions based on provided documents in a clear way and easy-to-understand way.
+If there is no documents or context found, or the document is irrelevant to answering the question, simply reply that you can't answer.
+Please reply with just the detailed answer.
 
-## Research:
+## Documents:
 {context}
 
 ## Question:
@@ -53,8 +53,8 @@ def getStreamingChain(question: str, memory, llm, db):
     retriever = db.as_retriever(search_kwargs={"k": 10})
     loaded_memory = RunnablePassthrough.assign(
         chat_history=RunnableLambda(
-            lambda x: "\n".join(
-                [f"{item['role']}: {item['content']}" for item in x["memory"]]
+            lambda x: "\n".join([]
+#               [f"{item['role']}: {item['content']}" for item in x["memory"]]
             )
         ),
     )
@@ -81,6 +81,7 @@ def getStreamingChain(question: str, memory, llm, db):
     answer = final_inputs | ANSWER_PROMPT | llm
 
     final_chain = loaded_memory | standalone_question | retrieved_documents | answer
+    #final_chain = standalone_question | retrieved_documents | answer
 
     return final_chain.stream({"question": question, "memory": memory})
 

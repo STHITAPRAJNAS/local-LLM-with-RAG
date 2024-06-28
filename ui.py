@@ -7,7 +7,7 @@ from document_loader import load_documents_into_database
 from models import get_list_of_models
 from llm import getStreamingChain
 
-EMBEDDING_MODEL = "nomic-embed-text"
+EMBEDDING_MODEL = "mxbai-embed-large"
 
 st.title("Search Confluence with LLM using RAG 📚")
 
